@@ -1,0 +1,49 @@
+import json
+import wiotp.sdk.device
+import time
+import ibmiotf.application
+import ibmiotf.device
+
+myConfig = {
+    "identity": {
+        "orgId": "6j0oju",
+        "typeId": "ESP",
+        "deviceId": "1234"
+    },
+    "auth": {
+        "token": "12345678"
+    }
+}
+def myCommandCallback(cmd):
+    print("Command received: %s" % cmd.data['command'])
+    status=cmd.data['command']
+    if status=="locationon":
+        print ("location is on")
+    elif status == "locationoff":
+        print ("location is off")
+    else :
+        print ("please send proper command")
+        
+client = wiotp.sdk.device.DeviceClient(config=myConfig, logHandlers=None)
+client.connect()
+
+while True:
+    name= "Sowmiya"
+    #in area location
+
+    #latitude= 17.4225176
+    #longitude= 78.5458842
+
+    #out area location
+
+    latitude= 9.28
+    longitude= 78.5488783
+    mydata={'name': name, 'lat':latitude,'lon':longitude}
+    client.publishEvent(eventId="status", msgFormat="json", data=mydata, qos=0, onPublish=None)
+    print("Data published to IBM IoT platform: ",mydata)
+    time.sleep(20)
+
+    client.commandCallback = myCommandCallback
+
+client.disconnect()
+    
