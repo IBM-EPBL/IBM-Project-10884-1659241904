@@ -1,0 +1,478 @@
+[
+    {
+        "id": "871c634305d8169d",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "0909a04f5c73a363",
+        "type": "ibmiot in",
+        "z": "871c634305d8169d",
+        "authentication": "apiKey",
+        "apiKey": "30ac142caed1752c",
+        "inputType": "evt",
+        "logicalInterface": "",
+        "ruleId": "",
+        "deviceId": "1501",
+        "applicationId": "",
+        "deviceType": "+",
+        "eventType": "+",
+        "commandType": "",
+        "format": "json",
+        "name": "IBM IoT",
+        "service": "registered",
+        "allDevices": "",
+        "allApplications": "",
+        "allDeviceTypes": true,
+        "allLogicalInterfaces": "",
+        "allEvents": true,
+        "allCommands": "",
+        "allFormats": "",
+        "qos": 0,
+        "x": 127.60000610351562,
+        "y": 129,
+        "wires": [
+            [
+                "2069bd9b026acbb4"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "2069bd9b026acbb4",
+        "type": "function",
+        "z": "871c634305d8169d",
+        "name": "",
+        "func": "var name = msg.payload.name\nvar lat = msg.payload.lat\nvar lon = msg.payload.lon\nglobal.set('latitude',lat)\nglobal.set('longitude',lon)\nglobal.set('name',name)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 267.6000061035156,
+        "y": 130,
+        "wires": [
+            [
+                "2d22ea873d60e35d",
+                "8521141c759b7fd7"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "8521141c759b7fd7",
+        "type": "function",
+        "z": "871c634305d8169d",
+        "name": "",
+        "func": "msg.payload={\n    'name':global.get('name'),\n    'lat':global.get('latitude'),\n    'lon':global.get('longitude'),\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 269.6000061035156,
+        "y": 204,
+        "wires": [
+            [
+                "a5098bbc4525d3be",
+                "e8bf1e1bbd2f454b"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "6615a8030621c2c3",
+        "type": "function",
+        "z": "871c634305d8169d",
+        "name": "",
+        "func": "msg.payload=msg.location.inarea\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 64.60000228881836,
+        "y": 308.00000381469727,
+        "wires": [
+            [
+                "ea104e34372f3eb7"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "496021c9aece7e7c",
+        "type": "function",
+        "z": "871c634305d8169d",
+        "name": "",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340.6000061035156,
+        "y": 356,
+        "wires": [
+            [
+                "6ad6084ffd1a9427",
+                "ef85b4ebd3a4978c",
+                "a074295924dfae29"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "9e73760cfbfdc979",
+        "type": "function",
+        "z": "871c634305d8169d",
+        "name": "",
+        "func": "var d = new Date();\n\nvar utc = d.getTime() + (d.getTimezoneOffset() * 60000);\n\nvar offset = 5.5; // This is the offset for UTC+3, in your case (UTC+1)\n\nnewDate = new Date(utc + (3600000*offset));\n\nmsg.payload = {\n    \"message\":\"Exist\",\n    \"Time\":newDate.toLocaleString(),\n    \"name\":global.get('name'),\n    \"lat\":global.get('latitude'),\n    \"lon\":global.get('longitude')\n};\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 322.6000061035156,
+        "y": 401,
+        "wires": [
+            [
+                "f3aa758b41304d6a",
+                "7ee5767b22a22e80"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "45a5106476c0778f",
+        "type": "function",
+        "z": "871c634305d8169d",
+        "name": "",
+        "func": "var d = new Date();\n\nvar utc = d.getTime() + (d.getTimezoneOffset() * 60000);\n\nvar offset = 5.5; // This is the offset for UTC+3, in your case (UTC+1)\n\nnewDate = new Date(utc + (3600000*offset));\n\nmsg.payload = {\n    \"message\":\"Entry\",\n    \"Time\":newDate.toLocaleString(),\n    \"name\":global.get('name'),\n    \"lat\":global.get('latitude'),\n    \"lon\":global.get('longitude')\n};\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 343.6000061035156,
+        "y": 451,
+        "wires": [
+            [
+                "7ee5767b22a22e80"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "2d22ea873d60e35d",
+        "type": "debug",
+        "z": "871c634305d8169d",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 460.60003662109375,
+        "y": 130,
+        "wires": [],
+        "l": false
+    },
+    {
+        "id": "6ad6084ffd1a9427",
+        "type": "debug",
+        "z": "871c634305d8169d",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 707.6000595092773,
+        "y": 218.00000381469727,
+        "wires": [],
+        "l": false
+    },
+    {
+        "id": "7ee5767b22a22e80",
+        "type": "debug",
+        "z": "871c634305d8169d",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 604.6000595092773,
+        "y": 457.0000057220459,
+        "wires": [],
+        "l": false
+    },
+    {
+        "id": "a5098bbc4525d3be",
+        "type": "geofence",
+        "z": "871c634305d8169d",
+        "name": "",
+        "mode": "circle",
+        "inside": "both",
+        "rad": 44279.478686115595,
+        "points": [],
+        "centre": {
+            "latitude": 9.430367054004316,
+            "longitude": 78.68930053606164
+        },
+        "floor": "",
+        "ceiling": "",
+        "worldmap": false,
+        "outputs": 1,
+        "x": 341.600004196167,
+        "y": 253.80002784729004,
+        "wires": [
+            [
+                "6615a8030621c2c3"
+            ]
+        ]
+    },
+    {
+        "id": "e8bf1e1bbd2f454b",
+        "type": "ui_worldmap",
+        "z": "871c634305d8169d",
+        "group": "1da429ee9af25d73",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "worldmap",
+        "lat": "20.3452",
+        "lon": "78.5488783",
+        "zoom": "16",
+        "layer": "EsriS",
+        "cluster": "",
+        "maxage": "",
+        "usermenu": "show",
+        "layers": "hide",
+        "panit": "false",
+        "panlock": "false",
+        "zoomlock": "false",
+        "hiderightclick": "true",
+        "coords": "none",
+        "showgrid": "false",
+        "showruler": "false",
+        "allowFileDrop": "false",
+        "path": "/worldmap",
+        "overlist": "DR,CO,RA,DN,HM",
+        "maplist": "OSMG,OSMC,EsriC,EsriS,EsriT,EsriDG,UKOS",
+        "mapname": "",
+        "mapurl": "",
+        "mapopt": "",
+        "mapwms": false,
+        "x": 539.6000366210938,
+        "y": 198.20001220703125,
+        "wires": []
+    },
+    {
+        "id": "a074295924dfae29",
+        "type": "ui_toast",
+        "z": "871c634305d8169d",
+        "position": "dialog",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 1,
+        "ok": "Person is not that area",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 620.6000595092773,
+        "y": 358.20000553131104,
+        "wires": [
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "baf408520961f2a9",
+        "type": "switch",
+        "z": "871c634305d8169d",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "false"
+            },
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 194.60000610351562,
+        "y": 413,
+        "wires": [
+            [
+                "496021c9aece7e7c",
+                "9e73760cfbfdc979"
+            ],
+            [
+                "45a5106476c0778f"
+            ]
+        ],
+        "outputLabels": [
+            "person is not in that area",
+            ""
+        ],
+        "l": false
+    },
+    {
+        "id": "ea104e34372f3eb7",
+        "type": "rbe",
+        "z": "871c634305d8169d",
+        "name": "",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 281.6000061035156,
+        "y": 309,
+        "wires": [
+            [
+                "baf408520961f2a9"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "f3aa758b41304d6a",
+        "type": "cloudant out",
+        "z": "871c634305d8169d",
+        "name": "",
+        "cloudant": "",
+        "database": "tracker",
+        "service": "node-red-furve-2022--cloudant-1668308461486-50352",
+        "payonly": false,
+        "operation": "insert",
+        "x": 620.6000366210938,
+        "y": 409,
+        "wires": [],
+        "l": false
+    },
+    {
+        "id": "ef85b4ebd3a4978c",
+        "type": "http request",
+        "z": "871c634305d8169d",
+        "name": "fast2sms",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "body",
+        "url": "https://www.fast2sms.com/dev/bulkV2?authorization=xbrC4kc0jU7iVaCakWoWuFOaZnr421wMlP3euoBS1XeppHqmMGmrtZ9kmvp9&route=q&message=Alert%20:%20Sowmiya%20is%20not%20in%20that%20area%0A%20%20%20%20%7Blatitude:9.28,%20longitude:78.5488783%7D&language=english&flash=0&numbers=7094851724",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 687.600058555603,
+        "y": 299.0000047683716,
+        "wires": [
+            [
+                "6ad6084ffd1a9427"
+            ]
+        ]
+    },
+    {
+        "id": "48dd0499798a1cfa",
+        "type": "http in",
+        "z": "871c634305d8169d",
+        "name": "",
+        "url": "/data",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150.00000190734863,
+        "y": 514.0000076293945,
+        "wires": [
+            [
+                "58f9477316a2366a"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "68e85c722989b028",
+        "type": "http response",
+        "z": "871c634305d8169d",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 591.0000076293945,
+        "y": 513.0000076293945,
+        "wires": [],
+        "l": false
+    },
+    {
+        "id": "58f9477316a2366a",
+        "type": "function",
+        "z": "871c634305d8169d",
+        "name": "",
+        "func": "msg.payload = {\"name\":global.get(\"name\"),\"lat\":global.get(\"latitude\"),\"lon\":global.get(\"longitude\")}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 347.0000047683716,
+        "y": 514.0000076293945,
+        "wires": [
+            [
+                "68e85c722989b028"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "30ac142caed1752c",
+        "type": "ibmiot",
+        "name": "api",
+        "keepalive": "60",
+        "serverName": "",
+        "cleansession": true,
+        "appId": "",
+        "shared": false
+    },
+    {
+        "id": "1da429ee9af25d73",
+        "type": "ui_group",
+        "name": "Map",
+        "tab": "f0c7206649d57ee6",
+        "order": 1,
+        "disp": true,
+        "width": 14,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "f0c7206649d57ee6",
+        "type": "ui_tab",
+        "name": "Map",
+        "icon": "Map",
+        "disabled": false,
+        "hidden": false
+    }
+]
